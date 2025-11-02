@@ -86,8 +86,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GiftedChat, IMessage, BubbleProps } from 'react-native-gifted-chat';
 import { View, Alert } from 'react-native';
 import axios from 'axios';
-import ChatBubble from '../../app/chatbubble';
-import MessageInput from '../../app/messageinput';
+import ChatBubble from '../../components/chatbubble';
+import MessageInput from '../../components/messageinput';
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]);

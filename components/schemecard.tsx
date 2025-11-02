@@ -1,5 +1,7 @@
-import React from "react";
-import { Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Linking, Alert } from "react-native";
+import { Scroll, Link, ChevronDown, ChevronUp } from "lucide-react-native"; // Icons
+import { LinearGradient } from "expo-linear-gradient";
 
 type SchemeItem = {
   id: number;
@@ -10,71 +12,138 @@ type SchemeItem = {
 
 type Props = {
   scheme: SchemeItem;
-  language?: "en" | "hi"; // default to English
 };
 
-const SchemeCard: React.FC<Props> = ({ scheme, language = "en" }) => {
-  const openLink = async () => {
+// Default to English, but you could add a toggle later
+const lang = "en"; 
+
+export default function SchemeCard({ scheme }: Props) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleLinkPress = async () => {
     const supported = await Linking.canOpenURL(scheme.link);
     if (supported) {
       await Linking.openURL(scheme.link);
     } else {
-      alert("Cannot open link: " + scheme.link);
+      Alert.alert("Error", "Cannot open this link.");
     }
   };
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{scheme.title[language]}</Text>
-      <Text style={styles.description}>{scheme.description[language]}</Text>
-      <TouchableOpacity style={styles.button} onPress={openLink}>
-        <Text style={styles.buttonText}>Visit Scheme</Text>
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <LinearGradient
+          // Blue-tone gradient for the icon (matches home screen)
+          colors={["#0288D1", "#4FC3F7"]}
+          style={styles.iconContainer}
+        >
+          <Scroll color="#FFFFFF" size={24} />
+        </LinearGradient>
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>{scheme.title[lang]}</Text>
+        </View>
+      </View>
+
+      <Text 
+        style={styles.descriptionText} 
+        numberOfLines={isExpanded ? undefined : 3}
+      >
+        {scheme.description[lang]}
+      </Text>
+
+      <View style={styles.footer}>
+        <TouchableOpacity 
+          style={styles.expandButton} 
+          onPress={() => setIsExpanded(!isExpanded)}
+        >
+          <Text style={styles.expandButtonText}>
+            {isExpanded ? "Show Less" : "Show More"}
+          </Text>
+          {isExpanded ? (
+            <ChevronUp color="#555" size={16} /> 
+          ) : (
+            <ChevronDown color="#555" size={16} />
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.applyButton} onPress={handleLinkPress}>
+          <Text style={styles.applyButtonText}>Apply Now</Text>
+          <Link color="#FFFFFF" size={14} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "rgba(241, 248, 233, 1)", // soft green input background tone
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 15,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-    color: "#1B5E20", // deep forest green matching app theme
-  },
-  description: {
-    fontSize: 14,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 12,
-    color: "#4E342E", // matching brown tone for text
   },
-  button: {
-    backgroundColor: "#4CAF50", // consistent green button color
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+  iconContainer: {
+    width: 48,
+    height: 48,
     borderRadius: 12,
-    alignSelf: "flex-start",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
   },
-  buttonText: {
-    color: "#FFF",
-    fontWeight: "bold",
-    fontSize: 16,
-    letterSpacing: 0.5,
+  titleContainer: {
+    flex: 1,
+  },
+  titleText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+  },
+  descriptionText: {
+    fontSize: 14,
+    color: "#666",
+    lineHeight: 20,
+    marginBottom: 16,
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#F0F0F0",
+    paddingTop: 12,
+  },
+  expandButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 4,
+  },
+  expandButtonText: {
+    fontSize: 14,
+    color: "#555",
+    marginRight: 4,
+  },
+  applyButton: {
+    backgroundColor: "#2E7D32", // `bg-primary`
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 100, // Pill shape
+  },
+  applyButtonText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "600",
+    marginRight: 6,
   },
 });
-
-export default SchemeCard;

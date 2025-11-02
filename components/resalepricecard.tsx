@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Store } from "lucide-react-native";
+import { TrendingDown } from "lucide-react-native";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -20,14 +20,14 @@ const formatPrice = (price: string | number) => {
   }).format(numericPrice);
 };
 
-export default function PriceCard({ market, price }: Props) {
+export default function ResalePriceCard({ market, price }: Props) {
   return (
     <View style={styles.card}>
       <LinearGradient
-        colors={["#F57F17", "#FFB74D"]}
+        colors={["#8D6E63", "#BCAAA4"]} // Brown-tone
         style={styles.iconContainer}
       >
-        <Store color="#FFFFFF" size={24} />
+        <TrendingDown color="#FFFFFF" size={24} />
       </LinearGradient>
       <View style={styles.textContainer}>
         <Text style={styles.marketText} numberOfLines={1}>{market}</Text>
@@ -43,11 +43,13 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
     // --- UPDATED ---
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
     padding: 16,
     flexDirection: "row",
     alignItems: "center",
+    borderTopWidth: 1, // Separator line
+    borderTopColor: "#F5F5F5",
   },
   iconContainer: {
     width: 48,
@@ -64,17 +66,17 @@ const styles = StyleSheet.create({
   marketText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
+    color: "#5D4037", // Dark brown text
   },
   priceContainer: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    backgroundColor: "rgba(46, 125, 50, 0.1)",
+    backgroundColor: "rgba(121, 85, 72, 0.1)", // Light brown
     borderRadius: 8,
   },
   priceText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#2E7D32",
+    color: "#795548", // Main brown color
   },
 });
