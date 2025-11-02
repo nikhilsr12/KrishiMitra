@@ -3,25 +3,25 @@ import { useRouter } from 'expo-router';
 import { ChevronLeft, MessageSquare, Send, User } from 'lucide-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    FlatList,
-    KeyboardAvoidingView,
-    Linking,
-    ListRenderItem,
-    Platform,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  KeyboardAvoidingView,
+  Linking,
+  ListRenderItem,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 // --- (ACTION REQUIRED) ADD YOUR API KEY HERE ---
 // Get your key from Google AI Studio
-const YOUR_GEMINI_API_KEY = "AIzaSyBd9wwZmS-dmpqaqk6pQoQEakbD2QoLdic"; // PASTE YOUR KEY HERE
+const YOUR_GEMINI_API_KEY = ""; // PASTE YOUR KEY HERE
 // ---------------------------------------------
 
 // --- Type Definitions ---
